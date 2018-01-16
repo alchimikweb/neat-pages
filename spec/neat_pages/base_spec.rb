@@ -117,11 +117,11 @@ describe NeatPages::Base do
     context "with a 200 items pagination starting at page 1 and having 10 items per page" do
       subject { NeatPages::Base.new(1, per_page: 10, total_items: 200).response_headers }
 
-      its(:length) { should eql 4 }
-      its(['X-Total-Items']) { should eql '200' }
-      its(['X-Total-Pages']) { should eql '20' }
-      its(['X-Per-Page']) { should eql '10' }
-      its(['X-Current-Page']) { should eql '1' }
+      its(:length) { expect eql 4 }
+      its(['X-Total-Items']) { expect eql '200' }
+      its(['X-Total-Pages']) { expect eql '20' }
+      its(['X-Per-Page']) { expect eql '10' }
+      its(['X-Current-Page']) { expect eql '1' }
     end
   end
 

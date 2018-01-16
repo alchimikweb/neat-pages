@@ -10,15 +10,15 @@ describe NeatPages::Helpers::Builder do
       context "when inserting the string <span>1</span>" do
         subject { builder.b '<span>1</span>' }
 
-        it { should eql '<span>1</span>' }
-        it { should be_html_safe }
+        it { expect eql '<span>1</span>' }
+        it { expect be_html_safe }
 
         context "and inserting another <span>2</span>" do
           before { builder.b '<span>1</span>' }
 
           subject { builder.b '<span>2</span>' }
 
-          it { should eql '<span>1</span><span>2</span>' }
+          it { expect eql '<span>1</span><span>2</span>' }
         end
       end
     end

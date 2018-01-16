@@ -8,7 +8,7 @@ describe NeatPages::Helpers::MoreButton do
     let(:pagination) { double() }
 
     context "with an empty pagination" do
-      before { pagination.stub(:paginated?).and_return(false) }
+      before { allow(pagination).to receive_messages(:paginated? => false) }
 
       let(:builder) { NeatPages::Helpers::MoreButton.new(pagination, request_mock) }
 
@@ -20,10 +20,11 @@ describe NeatPages::Helpers::MoreButton do
 
     context "with pagination at 1 of 4" do
       before do
-        pagination.stub(:paginated?).and_return(true)
-        pagination.stub(:next?).and_return(true)
-        pagination.stub(:next_page).and_return(2)
-        pagination.stub(:total_pages).and_return(4)
+        allow(pagination).to receive_messages(
+          :paginated? => true,
+          :next? => true,
+          :next_page => 2,
+          :total_pages => 4)
       end
 
       let(:builder) { NeatPages::Helpers::MoreButton.new(pagination, request_mock) }

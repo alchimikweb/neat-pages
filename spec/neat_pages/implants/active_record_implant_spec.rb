@@ -13,9 +13,8 @@ describe NeatPages::Implants::ActiveRecordImplant do
 
     context "when the page is out of bound" do
       before do
-        implant.stub(:count)
-        pagination.stub(:set_total_items)
-        pagination.stub(:out_of_bound?).and_return true
+        allow(implant).to receive_messages(count: 1)
+        allow(pagination).to receive_messages(set_total_items: 1, out_of_bound?: true)
       end
 
       it "raises" do
@@ -25,14 +24,8 @@ describe NeatPages::Implants::ActiveRecordImplant do
 
     context "when asking for a page in bound" do
       before do
-        implant.stub(:count)
-        implant.stub(:limit).and_return('')
-        implant.stub(:offset).and_return(implant)
-
-        pagination.stub(:set_total_items)
-        pagination.stub(:out_of_bound?).and_return false
-        pagination.stub(:offset)
-        pagination.stub(:limit)
+        allow(implant).to receive_messages(count: 1, limit: '', offset: implant)
+        allow(pagination).to receive_messages(set_total_items: 1, out_of_bound?: false, offset: '', limit: '')
       end
 
       it { expect(implant.paginate(pagination)).to eql '' }

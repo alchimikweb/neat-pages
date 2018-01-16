@@ -8,7 +8,7 @@ describe NeatPages::Helpers::Navigation do
     let(:pagination) { double() }
 
     context "with a pagination that doesn't need pages" do
-      before { pagination.stub(:paginated?).and_return(false) }
+      before { allow(pagination).to receive_messages(:paginated? => false) }
 
       let(:builder) { NeatPages::Helpers::Navigation.new(pagination, request_mock) }
 
@@ -19,16 +19,17 @@ describe NeatPages::Helpers::Navigation do
 
     context "with a 40 items pagination starting at 20 and having 10 items per page" do
       before do
-        pagination.stub(:paginated?).and_return(true)
-        pagination.stub(:current_page).and_return(3)
-        pagination.stub(:next?).and_return(true)
-        pagination.stub(:next_page).and_return(4)
-        pagination.stub(:offset).and_return(20)
-        pagination.stub(:per_page).and_return(10)
-        pagination.stub(:previous?).and_return(true)
-        pagination.stub(:previous_page).and_return(2)
-        pagination.stub(:total_items).and_return(40)
-        pagination.stub(:total_pages).and_return(4)
+        allow(pagination).to receive_messages(
+          :paginated? => true,
+          :current_page => 3,
+          :next? => true,
+          :next_page => 4,
+          :offset => 20,
+          :per_page => 10,
+          :previous? => true,
+          :previous_page => 2,
+          :total_items => 40,
+          :total_pages => 4)
       end
 
       let(:builder) { NeatPages::Helpers::Navigation.new(pagination, request_mock) }
@@ -40,16 +41,17 @@ describe NeatPages::Helpers::Navigation do
 
     context "with a 40 items pagination starting at 30 and having 10 items per page" do
       before do
-        pagination.stub(:paginated?).and_return(true)
-        pagination.stub(:current_page).and_return(3)
-        pagination.stub(:next?).and_return(false)
-        pagination.stub(:next_page).and_return(nil)
-        pagination.stub(:offset).and_return(30)
-        pagination.stub(:per_page).and_return(10)
-        pagination.stub(:previous?).and_return(true)
-        pagination.stub(:previous_page).and_return(2)
-        pagination.stub(:total_items).and_return(40)
-        pagination.stub(:total_pages).and_return(4)
+        allow(pagination).to receive_messages(
+          :paginated? => true,
+          :current_page => 3,
+          :next? => false,
+          :next_page => nil,
+          :offset => 30,
+          :per_page => 10,
+          :previous? => true,
+          :previous_page => 2,
+          :total_items => 40,
+          :total_pages => 4)
       end
 
       let(:builder) { NeatPages::Helpers::Navigation.new(pagination, request_mock) }
@@ -61,16 +63,17 @@ describe NeatPages::Helpers::Navigation do
 
     context "with a 200 items pagination starting at 110 and having 10 items per page" do
       before do
-        pagination.stub(:paginated?).and_return(true)
-        pagination.stub(:current_page).and_return(12)
-        pagination.stub(:next?).and_return(true)
-        pagination.stub(:next_page).and_return(13)
-        pagination.stub(:offset).and_return(110)
-        pagination.stub(:per_page).and_return(10)
-        pagination.stub(:previous?).and_return(true)
-        pagination.stub(:previous_page).and_return(11)
-        pagination.stub(:total_items).and_return(200)
-        pagination.stub(:total_pages).and_return(20)
+        allow(pagination).to receive_messages(
+          :paginated? => true,
+          :current_page => 12,
+          :next? => true,
+          :next_page => 13,
+          :offset => 110,
+          :per_page => 10,
+          :previous? => true,
+          :previous_page => 11,
+          :total_items => 200,
+          :total_pages => 20)
       end
 
       let(:builder) { NeatPages::Helpers::Navigation.new(pagination, request_mock) }

@@ -9,12 +9,13 @@ describe NeatPages::Helpers::Relation do
 
     context "with pagination at 1 of 4" do
       before do
-        pagination.stub(:paginated?).and_return(true)
-        pagination.stub(:current_page).and_return(1)
-        pagination.stub(:next?).and_return(true)
-        pagination.stub(:next_page).and_return(2)
-        pagination.stub(:previous?).and_return(false)
-        pagination.stub(:total_pages).and_return(4)
+        allow(pagination).to receive_messages(
+          :paginated? => true,
+          :current_page => 1,
+          :next? => true,
+          :next_page => 2,
+          :previous? => false,
+          :total_pages => 4)
       end
 
       let(:builder) { NeatPages::Helpers::Relation.new(pagination, request_mock) }
@@ -26,13 +27,14 @@ describe NeatPages::Helpers::Relation do
 
     context "with pagination at 2 of 4" do
       before do
-        pagination.stub(:paginated?).and_return(true)
-        pagination.stub(:current_page).and_return(1)
-        pagination.stub(:next?).and_return(true)
-        pagination.stub(:next_page).and_return(3)
-        pagination.stub(:previous?).and_return(true)
-        pagination.stub(:previous_page).and_return(1)
-        pagination.stub(:total_pages).and_return(4)
+        allow(pagination).to receive_messages(
+          :paginated? => true,
+          :current_page => 1,
+          :next? => true,
+          :next_page => 3,
+          :previous? => true,
+          :previous_page => 1,
+          :total_pages => 4)
       end
 
       let(:builder) { NeatPages::Helpers::Relation.new(pagination, request_mock) }
@@ -44,12 +46,13 @@ describe NeatPages::Helpers::Relation do
 
     context "with pagination at 4 of 4" do
       before do
-        pagination.stub(:paginated?).and_return(true)
-        pagination.stub(:current_page).and_return(4)
-        pagination.stub(:next?).and_return(false)
-        pagination.stub(:previous?).and_return(true)
-        pagination.stub(:previous_page).and_return(3)
-        pagination.stub(:total_pages).and_return(4)
+        allow(pagination).to receive_messages(
+          :paginated? => true,
+          :current_page => 4,
+          :next? => false,
+          :previous? => true,
+          :previous_page => 3,
+          :total_pages => 4)
       end
 
       let(:builder) { NeatPages::Helpers::Relation.new(pagination, request_mock) }

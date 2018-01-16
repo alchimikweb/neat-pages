@@ -7,7 +7,7 @@ describe NeatPages::Helpers do
   let(:views) { Module.new { extend NeatPages::Helpers } }
 
   describe "#neat_pages_ajax_items" do
-    before { views.stub(:render).and_return '[html_list_of_items]' }
+    before { allow(views).to receive_messages(render: '[html_list_of_items]') }
 
     specify "when rendering the ajax items" do
       expect(views.neat_pages_ajax_items('items')).to eql '<div id="neat-pages-ajax-wrapper" class="first-load">[html_list_of_items]</div>'
@@ -20,14 +20,15 @@ describe NeatPages::Helpers do
 
   describe "#neat_pages_more_button" do
     before do
-      views.stub(:request).and_return(request_mock(host: 'testview.dev'))
+      allow(views).to receive_messages(request: request_mock(host: 'testview.dev'))
 
-      pagination.stub(:paginated?).and_return(true)
-      pagination.stub(:next?).and_return(true)
-      pagination.stub(:next_page).and_return(2)
-      pagination.stub(:total_pages).and_return(4)
+      allow(pagination).to receive_messages(
+          :paginated? => true,
+          :next? => true,
+          :next_page => 2,
+          :total_pages => 4)
 
-      views.stub(:pagination).and_return(pagination)
+      allow(views).to receive_messages(pagination: pagination)
     end
 
     specify "when rendering the more button" do
@@ -38,20 +39,21 @@ describe NeatPages::Helpers do
 
   describe "#neat_pages_navigation" do
     before do
-      views.stub(:request).and_return(request_mock(host: 'testview.dev'))
+      allow(views).to receive_messages(request: request_mock(host: 'testview.dev'))
 
-      pagination.stub(:paginated?).and_return(true)
-      pagination.stub(:current_page).and_return(3)
-      pagination.stub(:next?).and_return(true)
-      pagination.stub(:next_page).and_return(4)
-      pagination.stub(:offset).and_return(20)
-      pagination.stub(:per_page).and_return(10)
-      pagination.stub(:previous?).and_return(true)
-      pagination.stub(:previous_page).and_return(2)
-      pagination.stub(:total_items).and_return(40)
-      pagination.stub(:total_pages).and_return(4)
+      allow(pagination).to receive_messages(
+          :paginated? => true,
+          :current_page => 3,
+          :next? => true,
+          :next_page => 4,
+          :offset => 20,
+          :per_page => 10,
+          :previous? => true,
+          :previous_page => 2,
+          :total_items => 40,
+          :total_pages => 4)
 
-      views.stub(:pagination).and_return(pagination)
+      allow(views).to receive_messages(pagination: pagination)
     end
 
     specify "when rendering the navigation" do
@@ -67,17 +69,18 @@ describe NeatPages::Helpers do
 
   describe "#neat_pages_link_relation_tags" do
     before do
-      views.stub(:request).and_return(request_mock(host: 'testview.dev'))
+      allow(views).to receive_messages(request: request_mock(host: 'testview.dev'))
 
-      pagination.stub(:paginated?).and_return(true)
-      pagination.stub(:current_page).and_return(3)
-      pagination.stub(:next?).and_return(true)
-      pagination.stub(:next_page).and_return(4)
-      pagination.stub(:previous?).and_return(true)
-      pagination.stub(:previous_page).and_return(2)
-      pagination.stub(:total_pages).and_return(4)
+      allow(pagination).to receive_messages(
+          :paginated? => true,
+          :current_page => 3,
+          :next? => true,
+          :next_page => 4,
+          :previous? => true,
+          :previous_page => 2,
+          :total_pages => 4)
 
-      views.stub(:pagination).and_return(pagination)
+      allow(views).to receive_messages(pagination: pagination)
     end
 
     specify "when rendering the relations" do
@@ -87,15 +90,16 @@ describe NeatPages::Helpers do
 
   describe "#neat_pages_status" do
     before do
-      views.stub(:request).and_return(request_mock)
+      allow(views).to receive_messages(request: request_mock)
 
-      pagination.stub(:empty?).and_return(false)
-      pagination.stub(:out_of_bound?).and_return(false)
-      pagination.stub(:offset).and_return(20)
-      pagination.stub(:per_page).and_return(10)
-      pagination.stub(:total_items).and_return(100)
+      allow(pagination).to receive_messages(
+          :empty? => false,
+          :out_of_bound? => false,
+          :offset => 20,
+          :per_page => 10,
+          :total_items => 100)
 
-      views.stub(:pagination).and_return(pagination)
+      allow(views).to receive_messages(pagination: pagination)
     end
 
     specify "when rendering the status" do

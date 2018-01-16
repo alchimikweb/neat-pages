@@ -8,7 +8,7 @@ describe NeatPages::Helpers::Status do
     let(:pagination) { double() }
 
     context "with an empty pagination" do
-      before { pagination.stub(:empty?).and_return(true) }
+      before { allow(pagination).to receive_messages(:empty? => true) }
 
       let(:builder) { NeatPages::Helpers::Status.new(pagination, request_mock) }
 
@@ -19,8 +19,7 @@ describe NeatPages::Helpers::Status do
 
     context "with a pagination out of bound" do
       before do
-        pagination.stub(:empty?).and_return(false)
-        pagination.stub(:out_of_bound?).and_return(true)
+        allow(pagination).to receive_messages(:empty? => false, :out_of_bound? => true)
       end
 
       let(:builder) { NeatPages::Helpers::Status.new(pagination, request_mock) }
@@ -32,11 +31,12 @@ describe NeatPages::Helpers::Status do
 
     context "with a 100 items pagination starting at 20 and having 10 items per page" do
       before do
-        pagination.stub(:empty?).and_return(false)
-        pagination.stub(:out_of_bound?).and_return(false)
-        pagination.stub(:offset).and_return(20)
-        pagination.stub(:per_page).and_return(10)
-        pagination.stub(:total_items).and_return(100)
+        allow(pagination).to receive_messages(
+          :empty? => false,
+          :out_of_bound? => false,
+          :offset => 20,
+          :per_page => 10,
+          :total_items => 100)
       end
 
       let(:builder) { NeatPages::Helpers::Status.new(pagination, request_mock) }
@@ -48,11 +48,12 @@ describe NeatPages::Helpers::Status do
 
     context "with a 23 items pagination starting at 20 and having 10 items per page" do
       before do
-        pagination.stub(:empty?).and_return(false)
-        pagination.stub(:out_of_bound?).and_return(false)
-        pagination.stub(:offset).and_return(20)
-        pagination.stub(:per_page).and_return(10)
-        pagination.stub(:total_items).and_return(23)
+        allow(pagination).to receive_messages(
+          :empty? => false,
+          :out_of_bound? => false,
+          :offset => 20,
+          :per_page => 10,
+          :total_items => 23)
       end
 
       let(:builder) { NeatPages::Helpers::Status.new(pagination, request_mock) }
